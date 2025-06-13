@@ -1,1 +1,25 @@
 # EliteTechIntern
+## TASK 1
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import LabelEncoder
+
+#Load dataset
+df = pd.read_csv("dataset.csv")
+print("Original Data:\n", df)
+
+#Handle invalid values
+df.loc[df["Age"] < 0, "Age"] = np.nan
+df.loc[df["Score"] < 0, "Score"] = np.nan
+
+#Fill only missing values
+df["Age"] = df["Age"].fillna(25).astype(int)
+df["Score"] = df["Score"].fillna(70).astype(int)
+
+df["Gender"] = LabelEncoder().fit_transform(df["Gender"])  # Female:0, Male:1
+df["City"] = LabelEncoder().fit_transform(df["City"])
+
+#Save cleaned data
+df.to_csv("cleaned_data.csv", index=False)
+print("\n✅ Cleaned data saved to 'cleaned_data.csv'")
+print("\nCleaned Data:\n", df)
